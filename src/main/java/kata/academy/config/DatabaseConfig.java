@@ -30,9 +30,11 @@ import java.util.Properties;
 @ComponentScan(value = "kata.academy")
 public class DatabaseConfig {
 
-
+    private final Environment env;
     @Autowired
-    private Environment env;
+    public DatabaseConfig(Environment env) {
+        this.env = env;
+    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -49,7 +51,6 @@ public class DatabaseConfig {
     public PlatformTransactionManager transactionManager() {
         JpaTransactionManager manager = new JpaTransactionManager();
         manager.setEntityManagerFactory(entityManagerFactory().getObject());
-
         return manager;
     }
 
@@ -73,18 +74,6 @@ public class DatabaseConfig {
         ds.setDriverClassName(env.getRequiredProperty("db.driver"));
         ds.setUsername(env.getRequiredProperty("db.username"));
         ds.setPassword(env.getRequiredProperty("db.password"));
-
-        ds.setInitialSize(Integer.parseInt(env.getRequiredProperty("db.initialSize")));
-        ds.setMinIdle(Integer.parseInt(env.getRequiredProperty("db.minIdle")));
-        ds.setMaxIdle(Integer.parseInt(env.getRequiredProperty("db.maxIdle")));
-        ds.setTimeBetweenEvictionRunsMillis(Long.parseLong(env.getRequiredProperty("db.timeBetweenEvictionRunsMillis")));
-        ds.setMinEvictableIdleTimeMillis(Long.parseLong(env.getRequiredProperty("db.minEvictableIdleTimeMillis")));
-        ds.setTestOnBorrow(Boolean.parseBoolean(env.getRequiredProperty("db.testOnBorrow")));
-        ds.setValidationQuery(env.getRequiredProperty("db.validationQuery"));
-
         return ds;
     }
-
-
-
 }

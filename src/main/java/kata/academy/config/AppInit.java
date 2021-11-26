@@ -1,42 +1,3 @@
-/*package kata.academy.config;
-
-import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
-
-*/
-/*
-public class AppInit implements WebApplicationInitializer {
-
-    private final static String DISPATCHER = "dispatcher";
-
-    @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
-        servletContext.addListener(new ContextLoaderListener(ctx));
-        ctx.register(WebConfig.class);
-
-        ServletRegistration.Dynamic servlet = servletContext.addServlet(DISPATCHER, new DispatcherServlet(ctx));
-        servlet.addMapping("/");
-    }
-}
-*/
-
-
-
-
-
-
-
-
-
-
-
 
 package kata.academy.config;
 
@@ -52,7 +13,7 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
     // Метод, указывающий на класс конфигурации
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] {
+        return new Class[]{
                 DatabaseConfig.class
         };
     }
@@ -61,7 +22,7 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class<?>[]{
-            WebConfig.class
+                WebConfig.class
         };
     }
 
@@ -71,38 +32,13 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
         return new String[]{"/"};
     }
 
+
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         super.onStartup(servletContext);
-
-
-
         FilterRegistration.Dynamic encodingFilter = servletContext.addFilter("encodingFilter", new CharacterEncodingFilter());
         encodingFilter.setInitParameter("encoding", "UTF-8");
         encodingFilter.setInitParameter("forceEncoding", "true");
         encodingFilter.addMappingForUrlPatterns(null, true, "/*");
-        //registerHiddenFieldFilter(servletContext);
     }
-
-//    private void registerHiddenFieldFilter(ServletContext context) {
-//        context.addFilter("hiddenHttpMethodFilter",
-//                new HiddenHttpMethodFilter()).addMappingForUrlPatterns(null, true, "/*");
-//    }
 }
-
-
-
-/*
-
-
-@Override
- protected Class<?>[] getRootConfigClasses() {
-    return new Class[] {AppConfig.class, SpringMVCRestConfig.class};
-}
-@Override
-protected Class<?>[] getServletConfigClasses() {
-    return null;
-}
-
-
- */
